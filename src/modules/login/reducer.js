@@ -9,7 +9,9 @@ const initialState = {
 const reducer = createReducer(
   initialState,
   {
-
+    [Types.VALUE_CHANGED](state, { key, value }) {
+      return { ...state, [key]: value };
+    }
   }
 );
 
