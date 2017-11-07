@@ -1,16 +1,7 @@
-import { createActions } from 'reduxsauce';
+import * as types from './consts';
 
-const NameSpace = 'login';
+export const valueChanged = (key, value) => ({ type: types.VALUE_CHANGED, key, value });
 
-const { Types, Creators } = createActions({
+export const loginRequest = (name, password) => ({ type: types.LOGIN_REQUEST.saga, name, password });
 
-  valueChanged: ['key', 'value'],
-
-}, { prefix: `${NameSpace}/` });
-
-export default Creators;
-
-export {
-  Types,
-  NameSpace
-};
+export const logoutRequest = (name) => ({ type: types.LOGOUT_REQUEST.saga, name });

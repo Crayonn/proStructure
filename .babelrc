@@ -3,6 +3,18 @@
     "react-native"
   ],
   "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "utils": "./utils",
+          "api": "./api"
+        }
+      }
+    ],
     "syntax-decorators",
     "transform-decorators-legacy"
   ]

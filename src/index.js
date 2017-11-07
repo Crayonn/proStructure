@@ -30,6 +30,5 @@ export default class App extends Component {
   }
 }
 
-// console.log(store.getState())
 // store.dispatch({type:'GOODS_SUCCESS'})
 // store.dispatch({type:'GOODS_FAILURE'})

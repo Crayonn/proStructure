@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux';
-import login from '../modules/login/reducer';
+import recycleState from 'redux-recycle';
+import { reducer as reduxFormReducer } from 'redux-form';
+import loginReducer, { nameSapce as login, initialState as loginInitialState } from '../modules/login/reducer';
+
+const resetableloginReducer = recycleState(loginReducer, ['RESET_LOGIN'], (state, action) => {
+  //return newState according to state,action,loginInitialState
+  return loginInitialState;
+});
 
 export default function getReducer(navReducer) {
-  return combineReducers(Object.assign(
-    { nav: navReducer },
-    login
-  ));
+  return combineReducers({
+    nav: navReducer,
+    form: reduxFormReducer,
+    [login]: resetableloginReducer,
+  });
 };
