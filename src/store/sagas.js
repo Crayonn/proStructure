@@ -1,11 +1,10 @@
-function* watchLogger(getState) {
+import { all, fork } from 'redux-saga/effects';
+import watchLogger from './middlewares/logger';
 
-  while (true) {
-    const action = yield take('*');
+export default function* rootSaga({ getState, dispatch, subscribe }) {
 
-    console.log('action', action);
-    console.log('state after', getState());
-  }
+  yield all([
+    fork(watchLogger, getState)
+  ]);
 }
 
-export default watchLogger;

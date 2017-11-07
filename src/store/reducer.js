@@ -1,15 +1,7 @@
-import { createReducer } from 'reduxsauce';
+import { combineReducers } from 'redux';
 
-export const initialState = { aaa: 1 };
-
-
-export const handers = {
-  ['GOODS_SUCCESS'](state, action) {
-    return state;
-  },
-  ['GOODS_FAILURE'](state, action) {
-    return state;
-  }
+export default function getReducer(navReducer) {
+  return combineReducers({
+    nav: navReducer
+  });
 }
-
-export default createReducer(initialState, handers);

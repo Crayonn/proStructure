@@ -1,13 +1,19 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-export default function (reducer, saga, initialState = {}) {
-  const sagaMiddleware = createSagaMiddleware(saga)
+export default function customCreateStore(appReducer, appSaga, appInitialState = {}) {
+  const sagaMiddleware = createSagaMiddleware(appSaga)
     , enhancer = compose(applyMiddleware(sagaMiddleware));
 
-  const store = createStore(reducer, initialState, enhancer);
+  const store = createStore(appReducer, appInitialState, enhancer);
 
-  sagaMiddleware.run(saga);
+  const io = {
+    getState: store.getState,
+    dispatch: store.dispatch,
+    subscribe: store.subscribe
+  };
+
+  sagaMiddleware.run(appSaga, io);
 
   return store;
 }
