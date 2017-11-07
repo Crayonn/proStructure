@@ -1,43 +1,35 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import { Button } from 'react-native-elements';
+import { Provider, connect } from 'react-redux';
+import { addNavigationHelpers } from 'react-navigation';
+import { View } from 'react-native';
+
+import configStore from './store/index.js'
+import AppNavigator from './navigator';
+
+const navReducer = (state, action) => {
+  const newState = AppNavigator.router.getStateForAction(action, state);
+  return newState || state;
+};
+
+const AppWithNavigationState = connect(({ nav }) => ({ nav }))(
+  ({ dispatch, nav }) => (
+    <AppNavigator
+      navigation={addNavigationHelpers({ dispatch, state: nav })} />
+  )
+);
+
+const store = configStore(navReducer);
 
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Button
-          raised
-          icon={{ name: 'home', size: 32 }}
-          buttonStyle={{ backgroundColor: 'red', borderRadius: 10 }}
-          textStyle={{ textAlign: 'center' }}
-          title={`Welcome to\nReact Native Elements`}
-        />
-      </View>
+      <Provider store={store}>
+        <AppWithNavigationState />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+console.log(store.getState())
+// store.dispatch({type:'GOODS_SUCCESS'})
+// store.dispatch({type:'GOODS_FAILURE'})
