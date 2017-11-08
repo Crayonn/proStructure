@@ -1,6 +1,7 @@
 import { takeEvery, takeLatest } from 'redux-saga';
 import { isCancelError } from 'redux-saga/utils';
 import { put, call, fork, take, cancel, race, all } from 'redux-saga/effects';
+import { Actions } from 'react-native-router-flux';
 
 import * as types from './consts';
 import { loginP, logoutP } from 'api';
@@ -13,6 +14,7 @@ export function* loginRequest(action) {
     const response = yield call(loginP, name, password);
 
     yield put({ type: types.LOGIN_REQUEST.success, response });
+    Actions.home();
 
   } catch (error) {
     console.log(error.message)

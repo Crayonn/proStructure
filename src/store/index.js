@@ -1,14 +1,13 @@
 import customCreateStore from './createStore';
-import sagas from './sagas';
-import getReducer from './reducer';
+import rootSaga from './sagas';
+import rootReducer from './reducer';
 
-export default function configStore(navReducer) {
-  const { store, sagaManager, sagaMiddleware, io } = customCreateStore(getReducer(navReducer), sagas);
+export default function configStore() {
+  const { store, sagaManager, sagaMiddleware, io } = customCreateStore(rootReducer, rootSaga);
 
   if (__DEV__ && module.hot) {
     module.hot.accept(() => {
-      const nextGetReducer = require('./reducer').default
-        , nextRootReducer = nextGetReducer(navReducer);
+      const nextRootReducer = require('./reducer').default;
       store.replaceReducer(nextRootReducer);
 
       const nextRootSaga = require('./sagas').default;
